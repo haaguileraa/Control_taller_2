@@ -10,7 +10,7 @@ float tao = 0.1;  //Constante motor
 float k = 1;    //Constante motor
 float m = 0.4;  //Masa bolita
 float g = 9.8;  //Gravedad
-float L = 0.1;   //Largo de la probeta
+float L = 1;   //Largo de la probeta
 
 //Planta
 float x1, x2, Va = 0;
@@ -40,7 +40,7 @@ float I = 0, Iant = 0;
 
 
 float alt =0;
-float desv = 0.01; //desviamos 1cm
+float desv = 1; //desviamos 1cm
 //---control 
 float z=0;
 float zant=0;
@@ -57,16 +57,18 @@ void setup() {
 void control()
 {
   
-  alt =0.05;
+  alt =0.5;
   ki=1;
   kp=2;
   n += 1;
    if (n % 1500 == 0) {//2500 == 0) {
-   if (r < (alt)) {
+   
+   r=alt;
+   /*if (r < (alt)) {
       r = alt+desv;
     }
     else
-      r = alt+desv;
+      r = alt+desv; //*/
   } // */
 
   
@@ -83,14 +85,17 @@ void control()
   if (u>12) u=12;
   Iant = I; */
   //----------Adelanto  
+   /*
   z = 0.0995*zant + 0.2527*e;
-  u = (-0.3158*zant + 20*e)*12;
+  u = (-0.3158*zant + 20*e)*12; // */
   
   /*
   z = 0.0995*zant + 0.2527*e;
   u = (-0.1579*zant + 10*e)*12; */
-  
-  
+
+  //----------PI  
+  z = 0.9999*zant + 0.02*e;
+  u = (0.03*zant + 6*e)*12;
   zant=z;
 
   
@@ -114,8 +119,9 @@ void control()
   }
     
     Serial.print(x1*10);
+    /*
     Serial.print(" ");// */
-  /*  Serial.print(e);
+    Serial.print(e);
     Serial.print(" "); // */
     Serial.print(r*10);
     Serial.print(" "); 

@@ -64,5 +64,10 @@ step(T)
 title('Time Response T')
 grid on
 
+var=c2d(C,10^-3)
+
+cdva=ss(var)
+
+
 S=1-T;
-ep = dcgain(S)
+ep = dcgain(S);

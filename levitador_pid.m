@@ -59,3 +59,7 @@ figure(3)
 step(T)
 title('Time Response T')
 grid on
+
+var=c2d(C,10^-3)
+
+cdva=ss(var)

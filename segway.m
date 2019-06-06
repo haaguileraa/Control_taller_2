@@ -26,13 +26,11 @@ L1=C*G;
 %C1=k;
 %L2=C1*G;
 %% PID
-k= 1000000; 
-z1=-300;
-z2=-400;
-p1=0;
-p2=10*real(z1);
-%%
-
+%k= 1000000; 
+%z1=-300;
+%z2=-400;
+%p1=0;
+%p2=10*real(z1);
 k= 100000; 
 z1=-100;
 z2=-200;
@@ -67,11 +65,14 @@ step(T)
 grid on
 
 %% Respuesta a perturbacion
-P = G/(1+C*G);
+GP1 = G/(1+C*G);
 figure(5)
-impulse(5*P);
+step(5*GP1);
+title('Respuesta a perturbación de 5°')
 
 %%
-
+figure(6)
+impulse(5*T);
+title('Respuesta a perturbación de 5°')
 
 

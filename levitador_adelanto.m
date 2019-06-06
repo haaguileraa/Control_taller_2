@@ -54,10 +54,10 @@ end
 
 var=c2d(C,10^-3)
 
-cdva=ss(var)
+cdve=ss(var)
 
 
-tam_step = 1%0.05; % m
+tam_step = 0.05%0.05; % m
 volt=12;
 % Para la tensión tenemos la función de sensibilidad
 U=(C*tam_step*volt)/(1+C*G);
