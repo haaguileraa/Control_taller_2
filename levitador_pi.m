@@ -11,7 +11,22 @@ C = [1 0 0]
 lev = ss(A,B,C,0)
 G = tf(lev)
 
-% dise�o del controlador
+%%
+
+clc
+clear 
+
+s=tf('s');
+
+Num_prac = 0.68975;
+Den_prac = s*(s*s*0.01524+s*0.2732+1);
+
+lev= Num_prac/Den_prac;
+
+
+G = tf(lev);
+
+% diseno del controlador
 k=1
 z=-1
 p=10*z
@@ -24,17 +39,11 @@ plc=pole(T)
 % plot de la region de diseno
 delete(gcf)
 rlocus(L1)
-tee = 2
-SP = 12
-sigma = 5/tee
-zeta = abs(log(SP))/sqrt(pi^2+(log(SP))^2)
-teta = acos(zeta)
+
 h = gca()
 xscale = get(h,'xlim');
 yscale = get(h,'ylim');
-line([0 -yscale(2)/tan(teta)], [0 yscale(2)], 'color','g', 'linestyle','--')
-line([0 yscale(1)/tan(teta)], [0 yscale(1)], 'color','g','linestyle','--')
-l=line([-sigma -sigma], [yscale(1) yscale(2)], 'color','g','linestyle','--')
+
 
 for i =1 : length(plc)
   line(real(plc(i)), imag(plc(i)),  'marker','square', 'color','r', 'markersize', 8)

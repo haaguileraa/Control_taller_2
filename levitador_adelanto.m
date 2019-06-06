@@ -5,7 +5,8 @@ K= 1;
 p1 = 4.85;
 
 %%
-
+clc
+clear 
 
 s=tf('s');
 
@@ -33,15 +34,22 @@ delete(gcf)
 figure(1)
 rlocus(L1)
 
-tam_step =0.05; % m
-volt=12;
-
 
 for i =1 : length(plc)
   line(real(plc(i)), imag(plc(i)),  'marker','square', 'color','r', 'markersize', 8)
 end
 
+%% convirtiendo C a variables de estado
 
+var=c2d(C,10^-3)
+
+cdva=ss(var)
+
+
+
+%% Graficando respuestas al escalon
+tam_step =0.05; % m
+volt=12;
 U=(C*tam_step*volt)/(1+C*G)
 figure(2)
 step(U)
