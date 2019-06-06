@@ -48,7 +48,7 @@ float zant=0;
 
 //--------------SETUP-----------//
 void setup() {
-  Serial.begin(2000000);
+  Serial.begin(9600);
   // timer para ajustar la interrupcion
   Timer1.initialize(Ts);
   Timer1.attachInterrupt(control);
@@ -113,11 +113,11 @@ void control()
     x2=0;
   }
     
-    Serial.print(x1);
+    Serial.print(x1*10);
     Serial.print(" ");// */
   /*  Serial.print(e);
     Serial.print(" "); // */
-    Serial.print(r);
+    Serial.print(r*10);
     Serial.print(" "); 
     /* */
     Serial.println(u); // */

@@ -26,18 +26,11 @@ L1=C*G;
 %C1=k;
 %L2=C1*G;
 %% PID
-k= 1000000; 
+k= 4; 
 z1=-300;
 z2=-400;
 p1=0;
 p2=10*real(z1);
-%%
-
-k= 100000; 
-z1=-100;
-z2=-200;
-p1=0;
-p2=20*real(z1);
 p= [p1 p2]
 %p = [p1];
 z = [z1 z2];
@@ -47,7 +40,7 @@ L1=C*G;
 T=feedback(L1,1)
 plc=pole(T);
 
-
+%%
 T=feedback(L1,1);
 plc=pole(T);
 % plot de la region de diseno
@@ -66,6 +59,16 @@ step(T)
 %xlim([0 60]) 
 grid on
 
+%% Red de atraso%%
+k = 1200;
+z = 25;
+p = 180;
+C = k*((s+z)/(s+p));
+figure(3)
+sys = feedback(C*G,1);
+rlocus(C*G);
+figure(4)
+step(sys);
 %% Respuesta a perturbacion
 P = G/(1+C*G);
 figure(5)
