@@ -66,7 +66,7 @@ void control()
       r = alt+desv;
     }
     else
-      r = alt-desv;
+      r = alt+desv;
   } // */
 
   
@@ -82,9 +82,15 @@ void control()
   u = P + I;  //señal de control
   if (u>12) u=12;
   Iant = I; */
-  //----------Adelanto
+  //----------Adelanto  
   z = 0.0995*zant + 0.2527*e;
-  u = (-0.1579*zant + 10*e)*12;
+  u = (-0.3158*zant + 20*e)*12;
+  
+  /*
+  z = 0.0995*zant + 0.2527*e;
+  u = (-0.1579*zant + 10*e)*12; */
+  
+  
   zant=z;
 
   
@@ -108,12 +114,14 @@ void control()
   }
     
     Serial.print(x1);
-    Serial.print(" ");
+    Serial.print(" ");// */
+  /*  Serial.print(e);
+    Serial.print(" "); // */
     Serial.print(r);
     Serial.print(" "); 
-    /* 
-    Serial.println(u); // */
     /* */
+    Serial.println(u); // */
+    /* 
     Serial.print(kp);
     Serial.print(" ");
     Serial.println(ki); // */

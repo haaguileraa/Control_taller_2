@@ -5,7 +5,8 @@ K= 1;
 p1 = 4.85;
 
 %%
-
+clc
+clear 
 
 s=tf('s');
 
@@ -13,14 +14,16 @@ Num_prac = 0.68975;
 Den_prac = s*(s*s*0.01524+s*0.2732+1);
 
 lev= Num_prac/Den_prac;
+gk= 0.68975/0.01524;
+G = zpk([],[-5.12618 ],)
 
 
-G = tf(lev);
+%G = tf(lev);
 
 % diseño del controlador
-k=1;
+k=20;
 z=-1;
-p=10*z;
+p=5*z;
 C = zpk([z],[p],k)
 L1=C*G;
 %C1=k;
@@ -31,25 +34,28 @@ plc=pole(T);
 delete(gcf)
 
 figure(1)
-%rlocus(L2)
-%hold on
 rlocus(L1)
-
-
-
-tam_step =0.05; % m
-volt=12;
-
-U=(C*tam_step*volt)/(1+C*G)
-figure(2)
-step(U)
-grid on
 
 
 for i =1 : length(plc)
   line(real(plc(i)), imag(plc(i)),  'marker','square', 'color','r', 'markersize', 8)
 end
-%%
+
+% convirtiendo C a variables de estado
+
+var=c2d(C,10^-3)
+
+cdva=ss(var)
+
+
+% Graficando respuestas al escalon
+tam_step = 1%0.05; % m
+volt=12;
+U=(C*tam_step*volt)/(1+C*G);
+figure(2)
+step(U)
+grid on
+
 
 figure(3)
 step(T)
@@ -57,3 +63,5 @@ step(T)
 grid on
 % Para la tensión tenemos la función de sensibilidad
 
+S=1-T;
+ep = dcgain(S)
