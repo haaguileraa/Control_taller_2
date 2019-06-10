@@ -27,9 +27,10 @@ lev= Num_prac/Den_prac;
 G = tf(lev);
 
 % diseno del controlador
-k=6
-z=-0.2
-p=-0.1
+k=7;
+z=-0.2;
+%p=-0.1
+p=0;
 C = zpk([z],[p],k)
 %C=20;
 L1=C*G;
@@ -38,7 +39,7 @@ plc=pole(T);
 
 tam_step =0.05; % m
 volt=12;
-U=(C*tam_step)/(1+C*G);
+U=(C*tam_step*volt)/(1+C*G);
 
 
 
@@ -63,11 +64,19 @@ figure(3)
 step(T)
 title('Time Response T')
 grid on
-
-var=c2d(C,10^-3)
-Cpif = tf(bilin(ss(C),1,'fwdrec',10^-3))
-cdva=ss(Cpif)
-%cdvaa=ss(var)
-
+%error
 S=1-T;
-ep = dcgain(S);
+ep = dcgain(S)
+
+%% Discretización
+[As,Bs,Cs,Ds] = tf2ss([0 0 0 0.68975], [0.01524 0.2732 1 0])
+[Ad, Bd, Cd, Dd] = c2dm(As,Bs,Cs,Ds, 10^-3,'fwdrec')
+
+load('./datos/PI.mat')
+
+figure(4)
+step(T)
+legend('Step(T)')
+hold all;
+plot(t/1000,x1,'r','LineStyle','--')
+

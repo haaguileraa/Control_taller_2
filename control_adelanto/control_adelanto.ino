@@ -1,5 +1,7 @@
 #include "TimerOne.h"
 
+float  ttime = 0;
+
 //--------Constantes de la planta---------//
 
 float u = 0;  //Ventilador
@@ -27,51 +29,41 @@ float D = (float)1 / Fs;  //Tiempo de muestreo
 long Ts = 1000000 / Fs;   //Tiempo del timer 5ms
 int n = 0;    //Variable para cambiar la referencia
 //float
-float r = 0;//L/2;  //Referencia
+float r = 1;//L/2;  //Referencia
 float e = 0;  //Error
 
 //Control proporcional
-float kp = 2;//2;
+float kp = 4;
 float P = 0;
 //Control integral
-float ki = 1;//1;
+float ki = 0;
 float kib = ki * D;
 float I = 0, Iant = 0;
-
-
-float alt =0.05;
-float desv = 1; //desviamos 1cm
+//Control derivativo
+float kd = 3.2;
+float kdb = kd * D;
+float Der = 0, eant = 0;
 //---control 
-float z=0;
-float zant=0;
+float z1=0;
+float z1ant;
+
 
 
 //--------------SETUP-----------//
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   // timer para ajustar la interrupcion
   Timer1.initialize(Ts);
   Timer1.attachInterrupt(control);
+  
 }
 
 void control()
 {
   
-  alt =1;
-  ki=0.01;
-  kp=0.02;
-  /*
-  n += 1;
-   if (n % 1500 == 0) {//2500 == 0) { // */
-   
-   r=alt;
-   /*if (r < (alt)) {
-      r = alt+desv;
-    }
-    else
-      r = alt+desv; //*/
- /* } // */
 
+   
+  
   
  
 
@@ -79,60 +71,45 @@ void control()
   //----------- Control -------------//
   e = r - x1;
 
-  /*
+  
   P = kp * e; //Proporcional
   I = Iant + kib * e; //Integral
-  u = P + I;  //señal de control
+  Der= kdb*(e-eant);
+  u = (P + I + Der)/14;  //señal de control
+  
   if (u>12) u=12;
-  Iant = I; */
-  //----------Adelanto  
-   /*
-  z = 0.0995*zant + 0.2527*e;
-  u = (-0.3158*zant + 20*e)*12; // */
+  Iant = I; // */
+  eant=e;
   
-  /*
-  z = 0.0995*zant + 0.2527*e;
-  u = (-0.1579*zant + 10*e)*12; */
-
-  //----------PI
-  //*
-  z = 0.9999*zant +0.03125*e;
-  u = (0.0192*zant + 6*e);
-  zant=z; //*/
   
-  Van=(Va - x2);
+ 
+  z1ant = 0.9822*z1 -0.0650*x2 + 0.9822*u ;
+  dx2 = D*z1+x2;
   dx1 = D*x2 + x1;
-  dx2 = D*alpha / m * sq(Van) - D*g + x2;
-  dVa = -D / tao * Va + D* k / tao * u + Va;
-
+  
+  
+  
   
 
   
   x1 = dx1;
   x2 = dx2;
-  Va = dVa;
-  if(x1>30){
-    x1=30;
-  }
+  z1 = z1ant; // */
+  
   if(x1<0){
-    x1=0;
-    x2=0;
-  }
-    
-    Serial.print(x1*10);
-    /*
-    Serial.print(" ");// 
-    Serial.print(e); */
-    Serial.print(" "); // */
-    Serial.print(r*10);
-    Serial.print(" "); 
-    /* 
-    Serial.println(u); // */
-    
-    Serial.print(kp);
+   x1=0;
+   x2=0;
+    }
+
+  
+
+     
+    Serial.print(millis());
     Serial.print(" ");
-    Serial.println(ki); // */
+    Serial.println(x1);
+   
 }
 void loop() {
  
+    
 }

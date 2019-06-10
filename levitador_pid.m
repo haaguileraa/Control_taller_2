@@ -1,3 +1,14 @@
+
+%%
+k= 4; %6;
+%z1=-6+0.01*j
+%z2=conj(z1)
+z1=-3
+z2=-0.4
+p1=0;
+p2=10*real(z2);
+
+%%
 clear 
 clc
 
@@ -10,15 +21,7 @@ lev= Num_prac/Den_prac;
 
 
 G = tf(lev)
-%%
-k= 4; %6;
-%z1=-6+0.01*j
-%z2=conj(z1)
-z1=-3
-z2=-0.4
-p1=0;
-p2=10*real(z2);
-%%
+
 % diseño del controlador
 k= 4; 
 z1=-3;
@@ -48,7 +51,7 @@ for i =1 : length(plc)
   line(real(plc(i)), imag(plc(i)),  'marker','square', 'color','r', 'markersize', 8)
 end
 
-
+%%
 figure(2)
 step(U)
 title('Time Response U')
@@ -60,6 +63,24 @@ step(T)
 title('Time Response T')
 grid on
 
-var=c2d(C,10^-3)
+%var=c2d(C,10^-3)
 
-cdva=ss(var)
+%Gtu = tf(bilin(ss(C),1,'Tustin',10^-3))
+%cdva=ss(Gtu)
+
+%cdva=ss(var)
+%% Discretización
+[As,Bs,Cs,Ds] = tf2ss([0 0 0 0.68975], [0.01524 0.2732 1 0])
+[Ad, Bd, Cd, Dd] = c2dm(As,Bs,Cs,Ds, 10^-3,'fwdrec')
+
+
+%%
+load('./datos/PID.mat')
+
+figure(4)
+step(T)
+ylim([0 1.3])
+legend('Step(T)')
+hold all;
+plot(t/1000,x1,'r','LineStyle','--')
+
