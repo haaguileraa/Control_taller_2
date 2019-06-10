@@ -65,9 +65,9 @@ title('Time Response T')
 grid on
 
 var=c2d(C,10^-3)
-
-cdva=ss(var)
-
+Cpif = tf(bilin(ss(C),1,'fwdrec',10^-3))
+cdva=ss(Cpif)
+%cdvaa=ss(var)
 
 S=1-T;
 ep = dcgain(S);
