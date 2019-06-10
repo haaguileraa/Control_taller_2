@@ -15,7 +15,7 @@ float L = 0.1;   //Largo de la probeta
 //Planta
 float x1, x2, Va = 0;
 float dx1, dx2, dVa;
-int Van;
+float Van;
 
 
 
@@ -57,7 +57,7 @@ void setup() {
 void control()
 {
   
-  alt =0.05;
+  alt =1;
   ki=0.01;
   kp=0.02;
   /*
@@ -94,11 +94,11 @@ void control()
   z = 0.0995*zant + 0.2527*e;
   u = (-0.1579*zant + 10*e)*12; */
 
-  //----------PI  
+  //----------PI
+  //*
   z = 0.9999*zant +0.03125*e;
-  u = (0.0192*zant + 6*e)*12;
-  zant=z;
-
+  u = (0.0192*zant + 6*e);
+  zant=z; //*/
   
   Van=(Va - x2);
   dx1 = D*x2 + x1;
@@ -119,12 +119,12 @@ void control()
     x2=0;
   }
     
-    Serial.print(x1);
+    Serial.print(x1*10);
     /*
     Serial.print(" ");// 
     Serial.print(e); */
     Serial.print(" "); // */
-    Serial.print(r);
+    Serial.print(r*10);
     Serial.print(" "); 
     /* 
     Serial.println(u); // */
